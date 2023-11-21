@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { MongoClient } from 'mongodb';
 
 class DBClient {

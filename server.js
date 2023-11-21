@@ -1,5 +1,6 @@
+/* eslint-disable linebreak-style */
 import express from 'express';
-import routes from './routes/index.js';
+import routes from './routes/index';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
