@@ -1,5 +1,4 @@
 /* eslint-disable linebreak-style */
-// controllers/FilesController.js
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
@@ -38,7 +37,7 @@ class FilesController {
         userId, name, type, isPublic, parentId,
       });
       return res.status(201).json({
-        id: newFolder.insertedId, userId, name, type, isPublic, parentId,
+        id: newFolder.insertedId.toString(), userId, name, type, isPublic, parentId,
       });
     }
     {
@@ -46,14 +45,21 @@ class FilesController {
       const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
       if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath, { recursive: true });
 
-      const filePath = path.join(folderPath, uuidv4());
+      const fileName = uuidv4();
+      const filePath = path.join(folderPath, fileName);
       fs.writeFileSync(filePath, Buffer.from(data, 'base64'));
 
       const newFile = await dbClient.db.collection('files').insertOne({
-        userId, name, type, isPublic, parentId, localPath: filePath,
+        userId: ObjectId(userId), name, type, isPublic, parentId, localPath: filePath,
       });
       return res.status(201).json({
-        id: newFile.insertedId, userId, name, type, isPublic, parentId, localPath: filePath,
+        id: newFile.insertedId.toString,
+        userId,
+        name,
+        type,
+        isPublic,
+        parentId,
+        localPath: filePath,
       });
     }
   }
